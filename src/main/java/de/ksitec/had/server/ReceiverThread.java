@@ -6,7 +6,6 @@ package de.ksitec.had.server;
 import de.ksitec.had.server.networking.DatagramPacketInfo;
 import de.ksitec.had.server.networking.Messages;
 import de.ksitec.had.server.networking.Networking;
-import de.ksitec.had.server.process.Player;
 
 /**
  * Copyright KSiTec GbR 2013<br>
@@ -36,15 +35,26 @@ public class ReceiverThread extends Thread {
 				} else if (messageContent.startsWith(Messages.I_AM_HAD_MASTER)) {
 					System.out.println("Master bei: " + senderIP);
 					NodeInfo currentMaster = NodeDirectory.getInstance().getMaster();
+					
 					if ((currentMaster == null) || !senderIP.equals(currentMaster.getIp())) {
 						System.out.println("NEUER Master");
-						HadProcessManager.getInstance().getFFmpeg().doStop();
 						
-						Player ffplay = (Player) HadProcessManager.getInstance().getFFplay();
-						ffplay.doStop();
+						NodeInfo me = NodeDirectory.getInstance().getMySelf();
+						HadProcessManager pm = HadProcessManager.getInstance();
+						// stop listening
+						pm.getPlayerProcess().doStop();
 						
-						ffplay.setMasterNodeIP(senderIP);
-						ffplay.doStart();
+						if (senderIP.equals(me.getIp())) {
+							// start capturing
+							pm.getCapturingProcess().doStart();
+							
+						} else {
+							// stop all if running
+							pm.getCapturingProcess().doStop();
+							
+							// start listening
+							pm.getPlayerProcess().doStart();
+						}
 					}
 					NodeDirectory.getInstance().register(senderIP, true);
 				}

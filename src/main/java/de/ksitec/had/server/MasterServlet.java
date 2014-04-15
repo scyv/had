@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import de.ksitec.had.server.networking.Messages;
 import de.ksitec.had.server.networking.Networking;
-import de.ksitec.had.server.process.HadProcess;
 
 /**
  * 
@@ -36,20 +35,6 @@ public class MasterServlet extends HttpServlet {
 		
 		if (request.getParameter("triggerMaster") != null) {
 			System.out.println("New Master triggered");
-			HadProcess ffmpeg = HadProcessManager.getInstance().getFFmpeg();
-			if (ffmpeg.isRunning()) {
-				ffmpeg.doStop();
-			}
-			
-			// ffmpeg starten und zeuch in feed reinklopfen
-			ffmpeg.doStart();
-			// ProcessBuilder pb = new ProcessBuilder();
-			// pb.directory(new File("."));
-			// System.out.println(this.ffmpegBinary + " " + this.sourceFile);
-			// pb.command(this.ffmpegBinary, "-re", "-i", this.sourceFile, "http://localhost:12090/feed1.ffm");
-			// this.ffmpegProcess = pb.start();
-			
-			// an alle senden "Ich bin der Master"
 			Networking.sendDatagramBroadcast(Messages.I_AM_HAD_MASTER);
 		}
 		

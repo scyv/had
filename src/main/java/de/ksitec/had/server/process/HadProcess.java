@@ -42,9 +42,15 @@ public abstract class HadProcess {
 	 */
 	public final void doStart() {
 		System.out.println("Starting " + this.getClass().getName());
+		
+		String startScript = this.getStartScript();
+		if (!new File(startScript).exists()) {
+			System.err.println("Datei existiert nicht: " + new File(startScript).getAbsolutePath());
+		}
+		
 		ProcessBuilder pb = new ProcessBuilder();
 		pb.directory(new File(this.getWorkingDir()));
-		pb.command().add(this.getStartScript());
+		pb.command().add(startScript);
 		pb.command().addAll(Arrays.asList(this.getStartCommandArgs()));
 		pb.inheritIO();
 		try {
@@ -61,9 +67,15 @@ public abstract class HadProcess {
 	public final void doStop() {
 		System.out.println("Stopping " + this.getClass().getName());
 		this.doCustomStop();
+		
+		String stopScript = this.getStopScript();
+		if (!new File(stopScript).exists()) {
+			System.err.println("Datei existiert nicht: " + new File(stopScript).getAbsolutePath());
+		}
+		
 		ProcessBuilder pb = new ProcessBuilder();
 		pb.directory(new File(this.getWorkingDir()));
-		pb.command().add(this.getStopScript());
+		pb.command().add(stopScript);
 		pb.command().addAll(Arrays.asList(this.getStopCommandArgs()));
 		pb.inheritIO();
 		

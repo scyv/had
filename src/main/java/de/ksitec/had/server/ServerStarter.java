@@ -38,9 +38,8 @@ public class ServerStarter {
 		ServerStarter.configureServer(server);
 		server.start();
 		
-		// NodeDirectory.getInstance().registerMyself(InetAddress.getByName("localhost").getHostAddress());
-		
-		HadProcessManager.getInstance().getFFServer().doStart();
+		// all clients are listening at startup per default (plug and play)
+		HadProcessManager.getInstance().getPlayerProcess().doStart();
 		
 		ReceiverThread ut = new ReceiverThread();
 		ut.start();

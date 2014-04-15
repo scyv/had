@@ -6,10 +6,9 @@ package de.ksitec.had.server;
 import java.util.HashMap;
 import java.util.Map;
 
-import de.ksitec.had.server.process.SourcePlayer;
-import de.ksitec.had.server.process.Player;
-import de.ksitec.had.server.process.Server;
+import de.ksitec.had.server.process.CapturingProcess;
 import de.ksitec.had.server.process.HadProcess;
+import de.ksitec.had.server.process.Player;
 
 /**
  * Copyright KSiTec GbR 2013<br>
@@ -21,9 +20,8 @@ import de.ksitec.had.server.process.HadProcess;
  */
 public final class HadProcessManager {
 	
-	private static final String FFMPEG = "ffmpeg";
-	private static final String FFSERVER = "ffserver";
-	private static final String FFPLAY = "ffplay";
+	private static final String PLAYER = "player";
+	private static final String CAPTURING = "capture";
 	
 	private static Map<String, HadProcess> processes = new HashMap<>();
 	
@@ -31,9 +29,8 @@ public final class HadProcessManager {
 	
 	
 	private HadProcessManager() {
-		HadProcessManager.processes.put(HadProcessManager.FFSERVER, new Server());
-		HadProcessManager.processes.put(HadProcessManager.FFMPEG, new SourcePlayer());
-		HadProcessManager.processes.put(HadProcessManager.FFPLAY, new Player());
+		HadProcessManager.processes.put(HadProcessManager.CAPTURING, new CapturingProcess());
+		HadProcessManager.processes.put(HadProcessManager.PLAYER, new Player());
 	}
 	
 	/**
@@ -44,24 +41,17 @@ public final class HadProcessManager {
 	}
 	
 	/**
-	 * @return Process for the ffserver
+	 * @return Process of the player
 	 */
-	public HadProcess getFFServer() {
-		return HadProcessManager.processes.get(HadProcessManager.FFSERVER);
+	public HadProcess getPlayerProcess() {
+		return HadProcessManager.processes.get(HadProcessManager.PLAYER);
 	}
 	
 	/**
-	 * @return Process for the ffmpeg
+	 * @return Process of the capturing
 	 */
-	public HadProcess getFFmpeg() {
-		return HadProcessManager.processes.get(HadProcessManager.FFMPEG);
-	}
-	
-	/**
-	 * @return Process for the ffplay
-	 */
-	public HadProcess getFFplay() {
-		return HadProcessManager.processes.get(HadProcessManager.FFPLAY);
+	public HadProcess getCapturingProcess() {
+		return HadProcessManager.processes.get(HadProcessManager.CAPTURING);
 	}
 	
 }

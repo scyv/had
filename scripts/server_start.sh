@@ -1,1 +1,0 @@
-echo Server not needed

@@ -12,16 +12,16 @@ import de.ksitec.had.server.Config;
  * @author y
  * 
  */
-public class SourcePlayer extends HadProcess {
+public class CapturingProcess extends HadProcess {
 	
 	@Override
 	protected String getStartScript() {
-		return Config.get("sourceplayer_start");
+		return Config.get("capturing_start");
 	}
 	
 	@Override
 	protected String getStopScript() {
-		return Config.get("sourceplayer_stop");
+		return Config.get("capturing_stop");
 	}
 	
 }
