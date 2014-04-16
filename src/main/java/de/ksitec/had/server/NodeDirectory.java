@@ -3,6 +3,7 @@
  */
 package de.ksitec.had.server;
 
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -93,6 +94,7 @@ public final class NodeDirectory {
 		nodeInfo.setIp(ip);
 		nodeInfo.setMaster(false);
 		nodeInfo.setLastUpdate(new Date());
+		nodeInfo.setName(this.resolveHostName(ip));
 		
 		this.nodes.put(ip, nodeInfo);
 	}
@@ -146,8 +148,19 @@ public final class NodeDirectory {
 		nodeInfo.setIp(ip);
 		nodeInfo.setMaster(master);
 		nodeInfo.setLastUpdate(new Date());
+		nodeInfo.setName(this.resolveHostName(ip));
 		
 		this.nodes.put(ip, nodeInfo);
+	}
+	
+	private String resolveHostName(String ip) {
+		try {
+			InetAddress addr = InetAddress.getByName(ip);
+			String host = addr.getCanonicalHostName();
+			return host;
+		} catch (Exception ex) {
+			return ip;
+		}
 	}
 	
 }

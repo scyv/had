@@ -22,4 +22,9 @@ public class Messages {
 	 */
 	public static final String I_AM_HAD_CLIENT = "I_AM_HAD_CLIENT";
 	
+	/**
+	 * Stop all HAD units
+	 */
+	public static final String STOP_ALL = "STOP_ALL";
+	
 }

@@ -4,6 +4,7 @@
 package de.ksitec.had.server;
 
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 
@@ -54,8 +55,13 @@ public class ServerStarter {
 	private static void configureServer(Server server) {
 		ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
 		context.setContextPath("/");
+		context.setResourceBase("./web");
+		context.setWelcomeFiles(new String[] {"index.html"});
+		context.addServlet(new ServletHolder(new DefaultServlet()), "/");
+		context.addServlet(new ServletHolder(new MasterServlet()), "/web/*");
+		
 		server.setHandler(context);
-		context.addServlet(new ServletHolder(new MasterServlet()), "/*");
+		
 	}
 	
 }

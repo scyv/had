@@ -1,3 +1,6 @@
 target
 .svn
 .DS_Store
+capturing.pid
+player.pid
+lib

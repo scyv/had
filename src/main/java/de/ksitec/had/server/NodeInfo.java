@@ -18,6 +18,8 @@ public final class NodeInfo {
 	
 	private String ip;
 	
+	private String name;
+	
 	private Date lastUpdate;
 	
 	
@@ -61,6 +63,20 @@ public final class NodeInfo {
 	 */
 	public void setLastUpdate(Date lastUpdate) {
 		this.lastUpdate = lastUpdate;
+	}
+	
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return this.name;
+	}
+	
+	/**
+	 * @param name the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
 	}
 	
 }

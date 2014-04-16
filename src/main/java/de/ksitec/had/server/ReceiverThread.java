@@ -25,21 +25,22 @@ public class ReceiverThread extends Thread {
 				String senderIP = datagramMessage.getSender();
 				String messageContent = datagramMessage.getMessage();
 				
-				if (messageContent.endsWith(NodeDirectory.getInstance().getUUID())) {
-					NodeDirectory.getInstance().registerMyself(senderIP);
+				NodeDirectory nodeDirectory = NodeDirectory.getInstance();
+				if (messageContent.endsWith(nodeDirectory.getUUID())) {
+					nodeDirectory.registerMyself(senderIP);
 				}
 				
 				if (messageContent.startsWith(Messages.I_AM_HAD_CLIENT)) {
-					System.out.println("Client bei: " + senderIP);
-					NodeDirectory.getInstance().register(senderIP, false);
+					// System.out.println("Client bei: " + senderIP);
+					nodeDirectory.register(senderIP, false);
 				} else if (messageContent.startsWith(Messages.I_AM_HAD_MASTER)) {
-					System.out.println("Master bei: " + senderIP);
-					NodeInfo currentMaster = NodeDirectory.getInstance().getMaster();
+					// System.out.println("Master bei: " + senderIP);
+					NodeInfo currentMaster = nodeDirectory.getMaster();
 					
 					if ((currentMaster == null) || !senderIP.equals(currentMaster.getIp())) {
-						System.out.println("NEUER Master");
+						// System.out.println("NEUER Master");
 						
-						NodeInfo me = NodeDirectory.getInstance().getMySelf();
+						NodeInfo me = nodeDirectory.getMySelf();
 						HadProcessManager pm = HadProcessManager.getInstance();
 						// stop listening
 						pm.getPlayerProcess().doStop();
@@ -56,7 +57,14 @@ public class ReceiverThread extends Thread {
 							pm.getPlayerProcess().doStart();
 						}
 					}
-					NodeDirectory.getInstance().register(senderIP, true);
+					nodeDirectory.register(senderIP, true);
+				} else if (messageContent.startsWith(Messages.STOP_ALL)) {
+					HadProcessManager pm = HadProcessManager.getInstance();
+					pm.getCapturingProcess().doStop();
+					pm.getPlayerProcess().doStop();
+					if (nodeDirectory.getMaster() != null) {
+						nodeDirectory.register(nodeDirectory.getMaster().getIp(), false);
+					}
 				}
 			}
 		}

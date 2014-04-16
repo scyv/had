@@ -32,7 +32,7 @@ public final class Networking {
 			socket.setBroadcast(true);
 			byte[] data = message.getBytes();
 			DatagramPacket sendPacket = new DatagramPacket(data, data.length, InetAddress.getByName(Networking.BROADCAST_ADDRESS), Networking.BROADCAST_PORT);
-			System.out.println("Sending: " + message);
+			// System.out.println("Sending: " + message);
 			socket.send(sendPacket);
 		} catch (Exception e) {
 			e.printStackTrace();
