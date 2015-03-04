@@ -15,7 +15,7 @@ Das Home-Audio-Distribution System besteht aus zwei oder mehr Knoten (Home-Audio
 
 - Aufbau mehrerer Paralleler Zonen
 - Streaming über Internet
-- WLAN 
+- WLAN
 
 ## Technische Beschreibung
 
@@ -27,7 +27,7 @@ Das Home-Audio-Distribution System besteht aus zwei oder mehr Knoten (Home-Audio
 ##### Start eines HADU
 
 - Selbst im eigenen NodeDirectory eintragen
-- FFServer starten
+- Server starten
 - Thread für das Empfangen von Broadcasts starten (ReceiverThread)
 - Thread für das Senden von Broadcasts starten (DiscoveryThread)
 
@@ -35,13 +35,12 @@ Das Home-Audio-Distribution System besteht aus zwei oder mehr Knoten (Home-Audio
 
 - Wartet auf Datagram
 	- Wenn MasterSignal kommt
-    	- FFMpeg stoppen
-        - FFPlay stoppen
-        - FFPlay mit neuer IP starten
+    	- Player stoppen
+        - Player mit neuer IP starten
     	- NodeDirectory aktualisieren
     - Wenn ClientSignal kommt
     	- NodeDirectory aktualisieren
-    	
+
 ##### DiscoveryThread
 
 - Periodisches Senden einer Datagram Nachricht
